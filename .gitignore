@@ -78,3 +78,5 @@ UpgradeLog*.XML
 ._.gitignore
 
 ._README.txt
+
+._README.markdown
