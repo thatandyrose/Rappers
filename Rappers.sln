@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rappers.DaData", "Rappers.DaData\Rappers.DaData.csproj", "{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rappers.Baseline", "Rappers.Baseline\Rappers.Baseline.csproj", "{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
