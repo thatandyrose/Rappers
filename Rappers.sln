@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rappers.DaData", "Rappers.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rappers.Baseline", "Rappers.Baseline\Rappers.Baseline.csproj", "{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rappers.HipHop", "Rappers.HipHop\Rappers.HipHop.csproj", "{474A872C-27C7-43A7-A581-D6A7344199A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F49D2D9-7333-4BDD-A461-A39F315AD2F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{474A872C-27C7-43A7-A581-D6A7344199A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{474A872C-27C7-43A7-A581-D6A7344199A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{474A872C-27C7-43A7-A581-D6A7344199A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{474A872C-27C7-43A7-A581-D6A7344199A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
