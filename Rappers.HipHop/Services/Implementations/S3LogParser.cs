@@ -4,31 +4,47 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Rappers.HipHop.Models;
 
 namespace Rappers.HipHop.Services.Implementations
 {
-    public class ParsedLog
+    public class S3LogParser : IParseLogs
     {
-        public DateTime Time { get; set; }
-    }
-    public class S3LogParser
-    {
+        public List<ParsedLog> Parse(DirectoryInfo directoryInfo, string filePrefix)
+        {
+            var logs = new List<ParsedLog>();
+            directoryInfo.GetFiles().Where(f=>f.Name.StartsWith(filePrefix))
+            .ToList()
+            .ForEach(f=> logs.AddRange(Parse(f)));
+
+            return logs;
+        }
         public List<ParsedLog> Parse(FileInfo logFile)
         {
             var logs = new List<ParsedLog>();
             var lines = File.ReadAllLines(logFile.FullName);
-            foreach (var line in lines)
+            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.Contains("REST.GET.OBJECT")))
             {
                 var log = new ParsedLog()
                 {
-                    Time = ParseDate(line),
+                    Time = FindDate(line),
+                    Url = FindUrl(line),
+                    Method = "REST.GET.OBJECT"
                 };
+                logs.Add(log);
             }
 
             return logs;
         }
 
-        public DateTime ParseDate(string line)
+        public string FindUrl(string line)
+        {
+            var i = line.IndexOf("\"GET", StringComparison.Ordinal);
+            var fromGet = line.Substring(i);
+           return fromGet.Split(' ')[1];
+        }
+
+        public DateTime FindDate(string line)
         {
             string raw = Regex.Match(line, @"\[[^\]\[]+\]").Value.Replace("[","").Replace("]","");
 

@@ -14,11 +14,21 @@ namespace Rappers.Tests.HipHop
         [Test]
         public void CanParseDate()
         {
-            var lines = File.ReadAllLines(@"c:\temp\s3logs\access_log-2012-08-08-19-16-10-62DFBE9829618C50");
+            var lines = File.ReadAllLines(@"Resources\s3log.txt");
             var line = lines.ElementAt(10);
 
             var parser = new S3LogParser();
-            Assert.DoesNotThrow(() => parser.ParseDate(line));
+            Assert.AreEqual(DateTime.Parse("08/Aug/2012 17:59:48 +0000"), parser.FindDate(line));
+        }
+
+        [Test]
+        public void CanParseUrl()
+        {
+            var lines = File.ReadAllLines(@"Resources\s3log.txt");
+            var line = lines.ElementAt(10);
+
+            var parser = new S3LogParser();
+            Assert.AreEqual("/videos-moshcam/moshcam/1692k/teganandsara_20090108_e_moshcam_1692k_480p.mp4", parser.FindUrl(line));
         }
     }
 }
