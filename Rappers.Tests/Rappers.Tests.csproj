@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{474A872C-27C7-43A7-A581-D6A7344199A4}</ProjectGuid>
+    <ProjectGuid>{27B04F7E-A3B0-4A83-9805-1129FF9A3D0C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rappers.HipHop</RootNamespace>
-    <AssemblyName>Rappers.HipHop</AssemblyName>
+    <RootNamespace>Rappers.Tests</RootNamespace>
+    <AssemblyName>Rappers.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,8 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK">
-      <HintPath>..\dependencies\aws\AWSSDK.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\dependencies\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\dependencies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,25 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompareStatus.cs" />
-    <Compile Include="ILog.cs" />
-    <Compile Include="Models\CompareInfo.cs" />
-    <Compile Include="Models\RemoteResource.cs" />
+    <Compile Include="HipHop\S3LogParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceType.cs" />
-    <Compile Include="Services\Implementations\BaseStorageService.cs" />
-    <Compile Include="Services\Implementations\FtpStorageService.cs" />
-    <Compile Include="Services\Implementations\S3LogParser.cs" />
-    <Compile Include="Services\Implementations\S3StorageService.cs" />
-    <Compile Include="Services\IParseLogs.cs" />
-    <Compile Include="Services\IRemoteStorageService.cs" />
-    <Compile Include="StorageType.cs" />
-    <Compile Include="StorageUnit.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rappers.DaData\Rappers.DaData.csproj">
-      <Project>{091E0F05-6F9E-440A-88A7-ECB3640FBF2A}</Project>
-      <Name>Rappers.DaData</Name>
+    <ProjectReference Include="..\Rappers.HipHop\Rappers.HipHop.csproj">
+      <Project>{474A872C-27C7-43A7-A581-D6A7344199A4}</Project>
+      <Name>Rappers.HipHop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
