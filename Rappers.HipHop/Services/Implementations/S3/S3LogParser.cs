@@ -28,7 +28,9 @@ namespace Rappers.HipHop.Services.Implementations.S3
                 {
                     Time = FindDate(line),
                     Url = FindUrl(line),
-                    Method = "REST.GET.OBJECT"
+                    Method = "REST.GET.OBJECT",
+                    BytesSent = FindBytesSent(line),
+                    BytesSize = FindBytesSize(line)
                 };
                 logs.Add(log);
             }
@@ -48,6 +50,30 @@ namespace Rappers.HipHop.Services.Implementations.S3
             var i = line.IndexOf("\"GET", StringComparison.Ordinal);
             var fromGet = line.Substring(i);
             return int.Parse(fromGet.Split(' ')[3]);
+        }
+
+        public long FindBytesSent(string line)
+        {
+            var i = line.IndexOf("\"GET", StringComparison.Ordinal);
+            var fromGet = line.Substring(i);
+            string sent = fromGet.Split(' ')[5];
+            if(sent.Contains("-"))
+            {
+                return 0;
+            }
+            return long.Parse(sent);
+        }
+
+        public long FindBytesSize(string line)
+        {
+            var i = line.IndexOf("\"GET", StringComparison.Ordinal);
+            var fromGet = line.Substring(i);
+            string sent = fromGet.Split(' ')[6];
+            if (sent.Contains("-"))
+            {
+                return 0;
+            }
+            return long.Parse(sent);
         }
 
         public DateTime FindDate(string line)

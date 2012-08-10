@@ -12,5 +12,7 @@ namespace Rappers.HipHop.Services
         string FindUrl(string line);
         DateTime FindDate(string line);
         int FindHttpCode(string line);
+        long FindBytesSent(string line);
+        long FindBytesSize(string line);
     }
 }

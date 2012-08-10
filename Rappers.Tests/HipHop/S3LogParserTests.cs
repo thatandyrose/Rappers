@@ -41,5 +41,25 @@ namespace Rappers.Tests.HipHop
             var parser = new S3LogParser();
             Assert.AreEqual(206, parser.FindHttpCode(line));
         }
+
+        [Test]
+        public void CanFindBytesSent()
+        {
+            var lines = File.ReadAllLines(@"Resources\s3log.txt");
+            var line = lines.ElementAt(10);
+
+            var parser = new S3LogParser();
+            Assert.AreEqual(8388608, parser.FindBytesSent(line));
+        }
+
+        [Test]
+        public void CanFindBytesSize()
+        {
+            var lines = File.ReadAllLines(@"Resources\s3log.txt");
+            var line = lines.ElementAt(10);
+
+            var parser = new S3LogParser();
+            Assert.AreEqual(1073193733, parser.FindBytesSize(line));
+        }
     }
 }
