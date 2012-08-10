@@ -30,7 +30,8 @@ namespace Rappers.HipHop.Services.Implementations.S3
                     Url = FindUrl(line),
                     Method = "REST.GET.OBJECT",
                     BytesSent = FindBytesSent(line),
-                    BytesSize = FindBytesSize(line)
+                    BytesSize = FindBytesSize(line),
+                    HttpResponseCode = FindHttpCode(line)
                 };
                 logs.Add(log);
             }
