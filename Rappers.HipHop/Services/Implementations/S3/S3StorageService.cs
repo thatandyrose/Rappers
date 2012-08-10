@@ -5,7 +5,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Rappers.HipHop.Models;
 
-namespace Rappers.HipHop.Services.Implementations
+namespace Rappers.HipHop.Services.Implementations.S3
 {
     public class S3StorageService : BaseStorageService, IRemoteStorageService
     {

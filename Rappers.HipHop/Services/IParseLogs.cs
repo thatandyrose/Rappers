@@ -11,5 +11,6 @@ namespace Rappers.HipHop.Services
         List<ParsedLog> Parse(FileInfo logFile);
         string FindUrl(string line);
         DateTime FindDate(string line);
+        int FindHttpCode(string line);
     }
 }

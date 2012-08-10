@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using Rappers.HipHop.Models;
 
-namespace Rappers.HipHop.Services.Implementations
+namespace Rappers.HipHop.Services.Implementations.FTP
 {
     public class FtpStorageService : BaseStorageService, IRemoteStorageService
     {
