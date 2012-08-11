@@ -11,11 +11,11 @@ namespace Rappers.DaData.Implementations.Mongo
 {
     public class MongoRepository<T> : IRepository<T> where T : IBaseEntity
     {
-        private MongoDatabase db;
+        private readonly MongoDatabase _db;
 
-        public MongoRepository(string connectionString)
+        public MongoRepository(MongoConnection mongoConnection)
         {
-            db = MongoDatabase.Create(connectionString);
+            _db = mongoConnection.DataBase;
         }
         public T Save(T entity)
         {
@@ -68,7 +68,7 @@ namespace Rappers.DaData.Implementations.Mongo
 
         private MongoCollection<T> GetCollection()
         {
-            return db.GetCollection<T>(typeof(T).Name);
+            return _db.GetCollection<T>(typeof(T).Name);
         }
     }
 }
