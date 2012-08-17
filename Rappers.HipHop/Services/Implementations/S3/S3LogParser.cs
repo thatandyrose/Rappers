@@ -12,12 +12,24 @@ namespace Rappers.HipHop.Services.Implementations.S3
         public List<ParsedLog> Parse(DirectoryInfo directoryInfo, string filePrefix)
         {
             var logs = new List<ParsedLog>();
-            directoryInfo.GetFiles().Where(f=>f.Name.StartsWith(filePrefix))
-            .ToList()
-            .ForEach(f=> logs.AddRange(Parse(f)));
+            ParseAction(directoryInfo, filePrefix, (l) =>
+            {
+                logs.Add(l);
+            });
 
             return logs;
         }
+
+        public void ParseAction(DirectoryInfo directoryInfo, string filePrefix, Action<ParsedLog> action)
+        {
+            directoryInfo.GetFiles().Where(f => f.Name.StartsWith(filePrefix))
+            .ToList()
+            .ForEach(f =>
+            {
+                Parse(f).ForEach(l=>action(l));          
+            });
+        }
+
         public List<ParsedLog> Parse(FileInfo logFile)
         {
             var logs = new List<ParsedLog>();
