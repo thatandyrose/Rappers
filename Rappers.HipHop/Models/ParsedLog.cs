@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Rappers.DaData;
 
 namespace Rappers.HipHop.Models
 {
-    public class ParsedLog
+    public class ParsedLog : BaseEntity
     {
         public DateTime Time { get; set; }
         public string Url { get; set; }
