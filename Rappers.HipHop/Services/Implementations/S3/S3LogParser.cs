@@ -7,34 +7,13 @@ using Rappers.HipHop.Models;
 
 namespace Rappers.HipHop.Services.Implementations.S3
 {
-    public class S3LogParser : IParseLogs
+    public class S3LogParser : BaseLogParser, IParseLogs
     {
-        public List<ParsedLog> Parse(DirectoryInfo directoryInfo, string filePrefix)
-        {
-            var logs = new List<ParsedLog>();
-            ParseAction(directoryInfo, filePrefix, (l) =>
-            {
-                logs.Add(l);
-            });
-
-            return logs;
-        }
-
-        public void ParseAction(DirectoryInfo directoryInfo, string filePrefix, Action<ParsedLog> action)
-        {
-            directoryInfo.GetFiles().Where(f => f.Name.StartsWith(filePrefix))
-            .ToList()
-            .ForEach(f =>
-            {
-                Parse(f).ForEach(l=>action(l));          
-            });
-        }
-
-        public List<ParsedLog> Parse(FileInfo logFile)
+        public override List<ParsedLog> Parse(FileInfo logFile)
         {
             var logs = new List<ParsedLog>();
             var lines = File.ReadAllLines(logFile.FullName);
-            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.Contains("REST.GET.OBJECT")))
+            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.Contains("REST.GET.OBJECT") && l.Contains("\"GET /")))
             {
                 var log = new ParsedLog()
                 {
@@ -51,21 +30,21 @@ namespace Rappers.HipHop.Services.Implementations.S3
             return logs;
         }
 
-        public string FindUrl(string line)
+        public override string FindUrl(string line)
         {
             var i = line.IndexOf("\"GET", StringComparison.Ordinal);
             var fromGet = line.Substring(i);
             return fromGet.Split(' ')[1];
         }
 
-        public int FindHttpCode(string line)
+        public override int FindHttpCode(string line)
         {
             var i = line.IndexOf("\"GET", StringComparison.Ordinal);
             var fromGet = line.Substring(i);
             return int.Parse(fromGet.Split(' ')[3]);
         }
 
-        public long FindBytesSent(string line)
+        public override long FindBytesSent(string line)
         {
             var i = line.IndexOf("\"GET", StringComparison.Ordinal);
             var fromGet = line.Substring(i);
@@ -77,7 +56,7 @@ namespace Rappers.HipHop.Services.Implementations.S3
             return long.Parse(sent);
         }
 
-        public long FindBytesSize(string line)
+        public override long FindBytesSize(string line)
         {
             var i = line.IndexOf("\"GET", StringComparison.Ordinal);
             var fromGet = line.Substring(i);
@@ -89,7 +68,7 @@ namespace Rappers.HipHop.Services.Implementations.S3
             return long.Parse(sent);
         }
 
-        public DateTime FindDate(string line)
+        public override DateTime FindDate(string line)
         {
             string raw = Regex.Match(line, @"\[[^\]\[]+\]").Value.Replace("[","").Replace("]","");
 
