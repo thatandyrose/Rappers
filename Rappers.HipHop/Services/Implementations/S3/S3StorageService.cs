@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -54,6 +55,11 @@ namespace Rappers.HipHop.Services.Implementations.S3
                 throw new Exception(string.Format("List Directory Error {0}",relativePath),ex);
             }
             
+        }
+
+        public override void UploadFile(FileInfo file)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Dispose()

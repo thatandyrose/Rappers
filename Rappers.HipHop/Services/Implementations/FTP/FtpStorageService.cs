@@ -48,6 +48,14 @@ namespace Rappers.HipHop.Services.Implementations.FTP
             
         }
 
+        public override void UploadFile(FileInfo file)
+        {
+            string response = ProcessResponse(WebRequestMethods.Ftp.UploadFile,"/",(r) =>
+            {
+                return r.ReadToEnd();
+            }).First();
+        }
+
         private List<string> blobToLines(string blob)
         {
             return blob.Replace(Environment.NewLine, ",").Split(',').ToList();
@@ -118,12 +126,12 @@ namespace Rappers.HipHop.Services.Implementations.FTP
             {
                 relativePath = string.Format("/{0}", relativePath);
             }
-
+        //http://msdn.microsoft.com/en-us/library/ms229715.aspx
             var uri = string.Format("{0}{1}", _host, relativePath);
             var ftpRequest = (FtpWebRequest)WebRequest.Create(uri);
             ftpRequest.Credentials = new NetworkCredential(_username, _password);
             ftpRequest.Method = method;
-           
+
             return (FtpWebResponse)ftpRequest.GetResponse();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Rappers.HipHop.Models;
 
@@ -8,7 +9,7 @@ namespace Rappers.HipHop.Services.Implementations
     public abstract class BaseStorageService : IRemoteStorageService
     {
         public abstract List<RemoteResource> ListDirectory(string relativePath);
-
+        public abstract void UploadFile(FileInfo file);
         public virtual void Dispose()
         {
             //nothing by default
@@ -132,6 +133,8 @@ namespace Rappers.HipHop.Services.Implementations
         {
             Compare(destination, "/", true, onCompare, directoryAliases);
         }
+
+        
 
         private void Compare(IRemoteStorageService destination, string startPath, bool deep, Action<CompareInfo> onCompare, IEnumerable<KeyValuePair<string,string>> directoryAliases)
         {
