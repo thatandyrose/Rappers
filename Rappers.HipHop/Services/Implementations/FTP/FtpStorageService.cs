@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using Rappers.HipHop.Models;
 
 namespace Rappers.HipHop.Services.Implementations.FTP
@@ -50,10 +51,7 @@ namespace Rappers.HipHop.Services.Implementations.FTP
 
         public override void UploadFile(FileInfo file)
         {
-            string response = ProcessResponse(WebRequestMethods.Ftp.UploadFile,"/",(r) =>
-            {
-                return r.ReadToEnd();
-            }).First();
+            var r = GetResponse(WebRequestMethods.Ftp.UploadFile, "/", file);
         }
 
         private List<string> blobToLines(string blob)
@@ -120,19 +118,36 @@ namespace Rappers.HipHop.Services.Implementations.FTP
             }
         }
 
-        private FtpWebResponse GetResponse(string method, string relativePath)
+        private FtpWebResponse GetResponse(string method, string relativePath, FileInfo fileToUpload)
         {
             if (!relativePath.StartsWith("/"))
             {
                 relativePath = string.Format("/{0}", relativePath);
             }
-        //http://msdn.microsoft.com/en-us/library/ms229715.aspx
             var uri = string.Format("{0}{1}", _host, relativePath);
             var ftpRequest = (FtpWebRequest)WebRequest.Create(uri);
             ftpRequest.Credentials = new NetworkCredential(_username, _password);
             ftpRequest.Method = method;
 
+            if(fileToUpload != null)
+            {
+                // Copy the contents of the file to the request stream.
+                var sourceStream = new StreamReader(fileToUpload.FullName);
+                byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+                sourceStream.Close();
+                ftpRequest.ContentLength = fileContents.Length;
+
+                Stream requestStream = ftpRequest.GetRequestStream();
+                requestStream.Write(fileContents, 0, fileContents.Length);
+                requestStream.Close();
+            }
+
             return (FtpWebResponse)ftpRequest.GetResponse();
+        }
+
+        private FtpWebResponse GetResponse(string method, string relativePath)
+        {
+            return GetResponse(method, relativePath, null);
         }
     }
 }
