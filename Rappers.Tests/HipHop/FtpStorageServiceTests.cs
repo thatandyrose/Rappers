@@ -15,9 +15,12 @@ namespace Rappers.Tests.HipHop
         [Ignore]
         public void CanUploadFile()
         {
-            var ftp = new FtpStorageService("ftpuploader.app.viostream.com", "viocorp\andrew.rose", "AR12Viocorp");
+            var ftp = new FtpStorageService("d3.viocorp.com", "technical.team", "LumpyDe$ign30");
 
-            ftp.UploadFile(new FileInfo(@"resources\test_01.mp4"));
+            ftp.UploadFile(new FileInfo(@"resources\test_01.mp4"),(done)=>
+            {
+                Console.Write("\r{0}%   ", done);                                                      
+            });
 
         }
     }

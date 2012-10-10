@@ -49,9 +49,9 @@ namespace Rappers.HipHop.Services.Implementations.FTP
             
         }
 
-        public override void UploadFile(FileInfo file)
+        public override void UploadFile(FileInfo file, Action<int> uploadProgress)
         {
-            var r = GetResponse(WebRequestMethods.Ftp.UploadFile, "/", file);
+            var r = GetResponse(WebRequestMethods.Ftp.UploadFile, "/", file, uploadProgress);
         }
 
         private List<string> blobToLines(string blob)
@@ -118,28 +118,48 @@ namespace Rappers.HipHop.Services.Implementations.FTP
             }
         }
 
-        private FtpWebResponse GetResponse(string method, string relativePath, FileInfo fileToUpload)
+        private FtpWebResponse GetResponse(string method, string relativePath, FileInfo fileToUpload, Action<int> uploadProgress)
         {
             if (!relativePath.StartsWith("/"))
             {
                 relativePath = string.Format("/{0}", relativePath);
             }
-            var uri = string.Format("{0}{1}", _host, relativePath);
+            string uri;
+            if(fileToUpload!=null)
+            {
+                uri = string.Format("{0}{1}{2}", _host, relativePath,fileToUpload.Name);
+            }
+            else
+            {
+                uri = string.Format("{0}{1}", _host, relativePath);
+            }
+            
             var ftpRequest = (FtpWebRequest)WebRequest.Create(uri);
             ftpRequest.Credentials = new NetworkCredential(_username, _password);
             ftpRequest.Method = method;
 
             if(fileToUpload != null)
             {
-                // Copy the contents of the file to the request stream.
-                var sourceStream = new StreamReader(fileToUpload.FullName);
-                byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
-                sourceStream.Close();
-                ftpRequest.ContentLength = fileContents.Length;
+                ftpRequest.ContentLength = fileToUpload.Length;
 
-                Stream requestStream = ftpRequest.GetRequestStream();
-                requestStream.Write(fileContents, 0, fileContents.Length);
-                requestStream.Close();
+                using (var inputStream = File.OpenRead(fileToUpload.FullName))
+                using (var outputStream = ftpRequest.GetRequestStream())
+                {
+                    var buffer = new byte[1024 * 1024];
+                    int totalReadBytesCount = 0;
+                    int readBytesCount;
+                    while ((readBytesCount = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        outputStream.Write(buffer, 0, readBytesCount);
+                        
+                        if(uploadProgress != null)
+                        {
+                            totalReadBytesCount += readBytesCount;
+                            var progress = totalReadBytesCount * 100.0 / inputStream.Length;
+                            uploadProgress((int)progress);
+                        }
+                    }
+                }
             }
 
             return (FtpWebResponse)ftpRequest.GetResponse();
@@ -147,7 +167,7 @@ namespace Rappers.HipHop.Services.Implementations.FTP
 
         private FtpWebResponse GetResponse(string method, string relativePath)
         {
-            return GetResponse(method, relativePath, null);
+            return GetResponse(method, relativePath, null, null);
         }
     }
 }

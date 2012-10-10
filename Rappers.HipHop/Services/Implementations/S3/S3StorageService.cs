@@ -57,7 +57,7 @@ namespace Rappers.HipHop.Services.Implementations.S3
             
         }
 
-        public override void UploadFile(FileInfo file)
+        public override void UploadFile(FileInfo file, Action<int> uploadProgress)
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,7 @@ namespace Rappers.HipHop.Services.Implementations
     public abstract class BaseStorageService : IRemoteStorageService
     {
         public abstract List<RemoteResource> ListDirectory(string relativePath);
-        public abstract void UploadFile(FileInfo file);
+        public abstract void UploadFile(FileInfo file, Action<int> uploadProgress);
         public virtual void Dispose()
         {
             //nothing by default

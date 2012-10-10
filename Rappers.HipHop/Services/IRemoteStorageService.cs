@@ -17,6 +17,6 @@ namespace Rappers.HipHop.Services
         void Traverse(string startPath, Action<List<RemoteResource>,string> action, bool deep);
         void CompareSingleDiretory(IRemoteStorageService destination, string directoryPath, Action<CompareInfo> onCompare, string directoryAlias);
         void Compare(IRemoteStorageService destination, Action<CompareInfo> onCompare, IEnumerable<KeyValuePair<string,string>> directoryAliases);
-        void UploadFile(FileInfo file);
+        void UploadFile(FileInfo file, Action<int> uploadProgress);
     }
 }
